@@ -13,6 +13,11 @@ from threading import Thread
 class servicenow():
     '''     
           Class to extract servicenow details for group in a month
+          DB tables
+                snow_info - task info of servicenow
+                snow_taskbreachedsla  - breachedsla tickets
+                snow_summary    - year & monthly summary of servicenow
+                snow_textinfo  - short description & close notes
     ''' 
     def __init__(self,year,month):
         self.user=       #### servicenow user name
@@ -122,13 +127,13 @@ def updatedata(year,month):
        try:
 
     ######## sql to insert servicenow ticket details to DB
-           sql="insert into [[ticket table ]] (active, closed_by, contact_type, impact, made_sla, number, priority, sys_class_name, sys_created_by, sys_created_on, u_customer, u_state) VALUES('"+(row['active'])+"','"+str(row['closed_by'])+"','"+str(row['contact_type'])+"','"+str(row['impact'])+"','"+str(row['made_sla'])+"','"+str(row['number'])+"','"+str(row['priority'])+"','"+str(row['sys_class_name'])+"','"+str(row['sys_created_by'])+"','"+str(row['sys_created_on'])+"','"+str(row['u_customer'])+"','"+str(row['u_state'])+"')"
+           sql="insert into snow_info (active, closed_by, contact_type, impact, made_sla, number, priority, sys_class_name, sys_created_by, sys_created_on, u_customer, u_state) VALUES('"+(row['active'])+"','"+str(row['closed_by'])+"','"+str(row['contact_type'])+"','"+str(row['impact'])+"','"+str(row['made_sla'])+"','"+str(row['number'])+"','"+str(row['priority'])+"','"+str(row['sys_class_name'])+"','"+str(row['sys_created_by'])+"','"+str(row['sys_created_on'])+"','"+str(row['u_customer'])+"','"+str(row['u_state'])+"')"
            p = Thread(target=s.insertdata, args=(sql,))
            jobs.append(p)
            p.start()
 
     ######### sql to insert servicenow ticket number,short description and close notes to DB
-           sql="insert into [[table to store short description & close notes ]] (number,short_description,close_notes) values ('"+str(row['number'])+"','"+str(row['short_description'])+"','"+str(row['close_notes'])+"')"
+           sql="insert into snow_textinfo (number,short_description,close_notes) values ('"+str(row['number'])+"','"+str(row['short_description'])+"','"+str(row['close_notes'])+"')"
            p = Thread(target=s.insertdata, args=(sql,))
            jobs.append(p)
            p.start()
@@ -150,7 +155,7 @@ def updatedata(year,month):
     breachedcount=len(dfa.index)
 
     ######## sql to insert servicenow SLA details to DB
-    sql="insert into [[SLA table ]] (year,month,totaltasks,incidents,tasks,active,breachedsla)  VALUES("+str(year)+","+str(month)+","+str(totaltasks)+","+str(incidentcount['incident'])+","+str(incidentcount['sc_task'])+","+str(activecount['true'])+","+str(breachedcount)+")"
+    sql="insert into snow_summary (year,month,totaltasks,incidents,tasks,active,breachedsla)  VALUES("+str(year)+","+str(month)+","+str(totaltasks)+","+str(incidentcount['incident'])+","+str(incidentcount['sc_task'])+","+str(activecount['true'])+","+str(breachedcount)+")"
     s.insertdata(sql)
 
     dfa.rename(columns = {'task.value':'task'},inplace = True) ## rename task.value column name
@@ -158,7 +163,7 @@ def updatedata(year,month):
         url=s.gettaskurl(row['task'])
         print url
         df=s.getdf(url)
-        sql="insert into [[table to tracke breacked ticket & create date ]](tasknumber,createdon) values ('"+df['number'].iloc[0]+"','"+df['sys_created_on'].iloc[0]+"')"
+        sql="insert into snow_taskbreachedsla (tasknumber,createdon) values ('"+df['number'].iloc[0]+"','"+df['sys_created_on'].iloc[0]+"')"
         try:
            s.insertdata(sql)
         except Exception as e:
