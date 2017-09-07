@@ -1,7 +1,5 @@
 #!/usr/bin/python
-#Need to install requests package for python
 import requests
-from Crypto.Cipher import AES
 import pandas as pd
 import sqlalchemy
 import simplejson as json
