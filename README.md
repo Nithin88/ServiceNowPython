@@ -6,10 +6,10 @@ frequent used words in incident short_description or closed_notes to identify pa
 
 ## getrecords.py 
 Collect data from ServiceNow task & incident details. Data updated to tables:
-              -  snow_info - task info of servicenow
-              -  snow_taskbreachedsla  - breachedsla tickets
-              -  snow_summary    - year & monthly summary of servicenow
-              -  snow_textinfo  - short description & close notes
+              *  snow_info - task info of servicenow
+              *  snow_taskbreachedsla  - breachedsla tickets
+              *  snow_summary    - year & monthly summary of servicenow
+              *  snow_textinfo  - short description & close notes
                 
 ## cloudstack_snow_cmdb_check.py
 Collect CMDB inventory data for particular group/domain from ServiceNow. Maps CMDB & cloudstack inventory and report if any mismatch identified.
