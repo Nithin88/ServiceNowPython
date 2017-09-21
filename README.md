@@ -14,6 +14,6 @@ Collect data from ServiceNow task & incident details. Data updated to tables:
 ## cloudstack_snow_cmdb_check.py
 Collect CMDB inventory data for particular group/domain from ServiceNow. Maps CMDB & cloudstack inventory and report if any mismatch identified.
 
-##servicenowkeywordanayzer.py
+## servicenowkeywordanayzer.py
 Analyze keywords in servicenow description & close notes collected with getrecords.py. Use wordcount python module perform basic AI to analyse
 text. Data presented with image & text size projection using alice_color.png
