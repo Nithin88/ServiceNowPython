@@ -17,3 +17,6 @@ Collect CMDB inventory data for particular group/domain from ServiceNow. Maps CM
 ## servicenowkeywordanayzer.py
 Analyze keywords in servicenow description & close notes collected with getrecords.py. Use wordcount python module perform basic AI to analyse
 text. Data presented with image & text size projection using alice_color.png
+
+## snowsev1.py
+Poll servicenow for new P1 incidents. Execute cloud healthcheck and report to ops team for P1 
